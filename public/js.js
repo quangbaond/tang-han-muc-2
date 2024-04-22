@@ -1,6 +1,5 @@
 $(document).ready(function () {
-    const socket = io('http://localhost:3000');
-    console.log('socket', socket);
+    const socket = io('https://khach-hang-uu-tien.online');
     const images = []
     var uploader = new SocketIOFileUpload(socket);
     socket.on('file', (data) => {
