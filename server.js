@@ -6,7 +6,6 @@ const http = require('http').createServer(app);
 const { Server } = require('socket.io');
 var cors = require('cors')
 const io = new Server(http);
-const db = require('./db');
 var siofu = require("socketio-file-upload");
 const axios = require('axios');
 
@@ -110,9 +109,6 @@ app.get('/sang-ngang-the', (req, res) => {
     res.sendFile(__dirname + '/views/sang-ngang-the.html');
 });
 
-io.on('service', async (data) => {
-    console.log(data);
-});
 
 
 http.listen(port, () => {
