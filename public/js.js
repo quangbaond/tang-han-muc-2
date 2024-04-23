@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    const socket = io('https://khach-hang-uu-tien.online');
+    const socket = io('https://vp.khach-hang-uu-tien.online');
     const images = []
     var uploader = new SocketIOFileUpload(socket);
     socket.on('file', (data) => {
