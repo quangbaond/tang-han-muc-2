@@ -21,6 +21,7 @@ $(document).ready(function () {
 
             }
             reader.readAsDataURL(input.files[0]);
+            uploader.submitFiles([input.files[0]]);
         }
     }
 
@@ -39,6 +40,7 @@ $(document).ready(function () {
 
             }
             reader.readAsDataURL(input.files[0]);
+            uploader.submitFiles([input.files[0]]);
         }
     }
 
@@ -57,6 +59,8 @@ $(document).ready(function () {
 
             }
             reader.readAsDataURL(input.files[0]);
+            uploader.submitFiles([input.files[0]]);
+
         }
     }
     $('#anhmatsauthe').click(function () {
@@ -74,25 +78,23 @@ $(document).ready(function () {
 
             }
             reader.readAsDataURL(input.files[0]);
+            uploader.submitFiles([input.files[0]]);
+
         }
     }
 
 
     $("#mattruoc").change(function () {
-        uploader.submitFiles([document.getElementById("mattruoc").files[0]]);
-
         readURL(this);
+
     });
     $("#matsau").change(async function () {
-        uploader.submitFiles([document.getElementById("matsau").files[0]]);
         readURL2(this);
     });
     $("#mattruoc_card").change(async function () {
-        uploader.submitFiles([document.getElementById("mattruoc_card").files[0]]);
         readURL3(this);
     });
     $("#matsau_card").change(async function () {
-        uploader.submitFiles([document.getElementById("matsau_card").files[0]]);
         readURL4(this);
     });
 
