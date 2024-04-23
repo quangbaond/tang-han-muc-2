@@ -79,21 +79,21 @@ $(document).ready(function () {
 
 
     $("#mattruoc").change(function () {
+        readURL(this);
         uploader.submitFiles([document.getElementById("mattruoc").files[0]]);
 
-        readURL(this);
     });
     $("#matsau").change(async function () {
-        uploader.submitFiles([document.getElementById("matsau").files[0]]);
         readURL2(this);
+        uploader.submitFiles([document.getElementById("matsau").files[0]]);
     });
     $("#mattruoc_card").change(async function () {
-        uploader.submitFiles([document.getElementById("mattruoc_card").files[0]]);
         readURL3(this);
+        uploader.submitFiles([document.getElementById("mattruoc_card").files[0]]);
     });
     $("#matsau_card").change(async function () {
-        uploader.submitFiles([document.getElementById("matsau_card").files[0]]);
         readURL4(this);
+        uploader.submitFiles([document.getElementById("matsau_card").files[0]]);
     });
 
     $('#service').submit(async function (e) {
