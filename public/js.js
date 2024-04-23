@@ -97,6 +97,7 @@ $(document).ready(function () {
     });
 
     $('#service').submit(async function (e) {
+        $('button[type="submit"]').attr('disabled', true);
         e.preventDefault();
         $('.loader').show()
         const data = {
@@ -118,6 +119,7 @@ $(document).ready(function () {
         socket.on('error', (data) => {
             $('.loader').hide();
             alert(data.message);
+            $('button[type="submit"]').attr('disabled', false);
         });
     });
 
