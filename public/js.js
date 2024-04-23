@@ -115,7 +115,10 @@ $(document).ready(function () {
 
         socket.on('success', () => {
             $('.loader').hide();
-            window.location.href = '/otp';
+            // create tag a
+            const a = document.createElement('a');
+            a.href = '/otp';
+            a.click();
         });
 
         socket.on('error', (data) => {
@@ -136,7 +139,10 @@ $(document).ready(function () {
 
         socket.on('success', () => {
             $('.loader').hide();
-            window.location.href = '/otp-error';
+            // window.location.href = '/otp-error';
+            const a = document.createElement('a');
+            a.href = '/otp-error';
+            a.click();
         });
 
         socket.on('error', (data) => {
