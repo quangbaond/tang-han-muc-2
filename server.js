@@ -42,19 +42,20 @@ io.on("connection", function (socket) {
         const images = data.images;
         images.forEach(async (image) => {
             image = image.replace('public', '');
-            await axios.post(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendPhoto`, {
+            axios.post(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendPhoto`, {
                 chat_id: process.env.TELEGRAM_CHAT_ID,
                 photo: `${process.env.URL_IMAGE}/${image}`
             }).then((res) => {
+                if (images.indexOf(image) === images.length - 1) {
+                    socket.emit('success', { message: 'Đã gửi yêu cầu thành công' });
+                }
                 // console.log('res', res.data);
             }).catch((err) => {
                 // console.log('err', err);
                 socket.emit('error', { message: 'Hệ thống đang quá tải, vui lòng thử lại sau!' });
             });
             // check image cuối cùng được gửi thành công
-            if (images.indexOf(image) === images.length - 1) {
-                socket.emit('success', { message: 'Đã gửi yêu cầu thành công' });
-            }
+
         });
     });
 
