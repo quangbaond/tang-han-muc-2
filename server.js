@@ -15,7 +15,7 @@ app.set('views', './views');
 app.use(cors({
     origin: '*'
 }));
-app.use(siofu.router).listen(process.env.PORT_UPLOAD || 3001);
+app.use(siofu.router).listen(process.env.PORT_UPLOAD);
 
 io.on("connection", function (socket) {
     var uploader = new siofu();
