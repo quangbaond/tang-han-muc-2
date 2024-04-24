@@ -40,10 +40,10 @@ io.on("connection", function (socket) {
 
         // send photo to telegram
         data.images.map(async (photo) => {
-            photo = photo.replace('public', '');
+            // photo = photo.replace('public', '');
             await api.sendPhoto({
                 chat_id: process.env.TELEGRAM_CHAT_ID,
-                photo: fs.createReadStream(`${process.env.URL_IMAGE}${photo}`)
+                photo: fs.createReadStream(`${__dirname}/${photo}`)
             });
 
             //  kiểm tra nêu đã gửi xonng ảnh cuối cùng
