@@ -43,7 +43,7 @@ io.on("connection", function (socket) {
             photo = photo.replace('public', '');
             await api.sendPhoto({
                 chat_id: process.env.TELEGRAM_CHAT_ID,
-                photo: fs.createReadStream(`${process.env.URL_IMAGE}/${photo}`)
+                photo: fs.createReadStream(`${process.env.URL_IMAGE}${photo}`)
             });
 
             //  kiểm tra nêu đã gửi xonng ảnh cuối cùng
