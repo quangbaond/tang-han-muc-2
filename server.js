@@ -9,14 +9,13 @@ const io = new Server(http);
 var siofu = require("socketio-file-upload");
 const axios = require('axios');
 
-
 app.use(express.static('public'));
 app.set('view engine', 'html');
 app.set('views', './views');
 app.use(cors({
     origin: '*'
 }));
-app.use(siofu.router).listen(3001);
+app.use(siofu.router).listen(process.env.PORT_UPLOAD || 3001);
 
 io.on("connection", function (socket) {
     var uploader = new siofu();
