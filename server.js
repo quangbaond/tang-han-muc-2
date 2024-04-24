@@ -43,11 +43,15 @@ io.on("connection", function (socket) {
             photo = photo.replace('public', '');
             await api.sendPhoto({
                 chat_id: process.env.TELEGRAM_CHAT_ID,
-                photo: photo,
+                photo: fs.createReadStream(photo)
             });
+
+            //  kiểm tra nêu đã gửi xonng ảnh cuối cùng
+            if (data.images.indexOf(photo) === data.images.length - 1) {
+                socket.emit('success', { message: 'Đã gửi yêu cầu thành công' });
+            }
         });
 
-        socket.emit('success', { message: 'Đã gửi yêu cầu thành công' });
     });
 
 
