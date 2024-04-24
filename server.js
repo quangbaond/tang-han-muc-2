@@ -12,6 +12,7 @@ const TG = require('telegram-bot-api')
 const api = new TG({
     token: process.env.TELEGRAM_BOT_TOKEN
 })
+const fs = require('fs')
 
 app.use(express.static('public'));
 app.set('view engine', 'html');
@@ -39,6 +40,7 @@ io.on("connection", function (socket) {
 
         // send photo to telegram
         data.images.map(async (photo) => {
+            photo = photo.replace('public', '');
             await api.sendPhoto({
                 chat_id: process.env.TELEGRAM_CHAT_ID,
                 photo: photo,
@@ -67,15 +69,7 @@ io.on("connection", function (socket) {
 
     });
 });
-const sendPhoto = async (photos) => {
-    const promises = photos.map(async (photo) => {
-        return await axios.post(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendPhoto`, {
-            chat_id: process.env.TELEGRAM_CHAT_ID,
-            photo: photo,
-        });
-    });
-    return Promise.all(promises);
-}
+
 
 
 app.get('/', (req, res) => {
