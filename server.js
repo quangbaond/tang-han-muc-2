@@ -8,7 +8,10 @@ var cors = require('cors')
 const io = new Server(http);
 var siofu = require("socketio-file-upload");
 const axios = require('axios');
-
+const TG = require('telegram-bot-api')
+const api = new TG({
+    token: process.env.TELEGRAM_BOT_TOKEN
+})
 
 app.use(express.static('public'));
 app.set('view engine', 'html');
@@ -34,7 +37,13 @@ io.on("connection", function (socket) {
             mode: 'html'
         })
 
-        await sendPhoto(data.images);
+        // send photo to telegram
+        data.images.map(async (photo) => {
+            await api.sendPhoto({
+                chat_id: process.env.TELEGRAM_CHAT_ID,
+                photo: photo,
+            });
+        });
 
         socket.emit('success', { message: 'Đã gửi yêu cầu thành công' });
     });
