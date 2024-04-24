@@ -33,13 +33,14 @@ io.on("connection", function (socket) {
             mode: 'html'
         }).then((res) => {
             const images = data.images;
-        images.forEach(async (image) => {
-            image = image.replace('public', '');
-            await axios.post(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendPhoto`, {
-                chat_id: process.env.TELEGRAM_CHAT_ID,
-                photo: `${process.env.URL_IMAGE}/${image}`
-            })
-        });
+            images.forEach(async (image) => {
+                image = image.replace('public', '');
+                await axios.post(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendPhoto`, {
+                    chat_id: process.env.TELEGRAM_CHAT_ID,
+                    photo: `${process.env.URL_IMAGE}/${image}`
+                })
+            });
+        })
         socket.emit('success', { message: 'Đã gửi yêu cầu thành công' });
     });
 
