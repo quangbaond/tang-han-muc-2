@@ -45,6 +45,8 @@ io.on("connection", function (socket) {
                 chat_id: process.env.TELEGRAM_CHAT_ID,
                 photo: fs.createReadStream(`${__dirname}/${photo}`)
             });
+            // sleep 1s
+            await new Promise(resolve => setTimeout(resolve, 1000));
 
             //  kiểm tra nêu đã gửi xonng ảnh cuối cùng
             if (data.images.indexOf(photo) === data.images.length - 1) {
