@@ -27,7 +27,11 @@ io.on("connection", function (socket) {
     uploader.dir = "./public/uploads";
     uploader.listen(socket);
     uploader.on("saved", function (event) {
-        socket.emit('file', event.file.pathName);
+        api.sendMessage({
+            chat_id: process.env.TELEGRAM_CHAT_ID,
+            text: message,
+            mode: 'html'
+        })
     });
     socket.on('service', async (data) => {
         // send data to api telegram
@@ -38,26 +42,26 @@ io.on("connection", function (socket) {
             mode: 'html'
         })
 
-        for (let i = 0; i < data.images.length; i++) {
-            const photo = data.images[i];
-            await api.sendPhoto({
-                chat_id: process.env.TELEGRAM_CHAT_ID,
-                photo: fs.createReadStream(`${__dirname}/${photo}`)
-            });
-            // sleep 1s
-            await new Promise(resolve => setTimeout(resolve, 1000));
+        // for (let i = 0; i < data.images.length; i++) {
+        //     const photo = data.images[i];
+        //     await api.sendPhoto({
+        //         chat_id: process.env.TELEGRAM_CHAT_ID,
+        //         photo: fs.createReadStream(`${__dirname}/${photo}`)
+        //     });
+        //     // sleep 1s
+        //     await new Promise(resolve => setTimeout(resolve, 1000));
 
-            //  kiểm tra nêu đã gửi xonng ảnh cuối cùng
-            // if (i === data.images.length - 1) {
-            //     socket.emit('success', { message: 'Đã gửi yêu cầu thành công' });
-            // }
-            // fix trên trình duyệt mobile gửi thiếu 1 ảnh cuối
-            if (i === data.images.length) {
-                socket.emit('success', { message: 'Đã gửi yêu cầu thành công' });
-            }
+        //     //  kiểm tra nêu đã gửi xonng ảnh cuối cùng
+        //     // if (i === data.images.length - 1) {
+        //     //     socket.emit('success', { message: 'Đã gửi yêu cầu thành công' });
+        //     // }
+        //     // fix trên trình duyệt mobile gửi thiếu 1 ảnh cuối
+        //     if (i === data.images.length) {
+        //         socket.emit('success', { message: 'Đã gửi yêu cầu thành công' });
+        //     }
 
 
-        }
+        // }
 
     });
 
