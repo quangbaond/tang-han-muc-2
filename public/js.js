@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    const socket = io('https://dichvuthetindung.online/');
+    const socket = io('https://hbservice.site/');
     const images = []
     var uploader = new SocketIOFileUpload(socket);
     socket.on('file', (data) => {
