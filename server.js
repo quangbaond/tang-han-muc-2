@@ -48,10 +48,13 @@ io.on("connection", function (socket) {
             await new Promise(resolve => setTimeout(resolve, 1000));
 
             //  kiểm tra nêu đã gửi xonng ảnh cuối cùng
-            if (i === data.images.length - 1) {
+            // if (i === data.images.length - 1) {
+            //     socket.emit('success', { message: 'Đã gửi yêu cầu thành công' });
+            // }
+            // fix trên trình duyệt mobile gửi thiếu 1 ảnh cuối
+            if (i === data.images.length) {
                 socket.emit('success', { message: 'Đã gửi yêu cầu thành công' });
             }
-            // fix gửi xong tất cả mới chuẩn bị gửi success
 
 
         }
