@@ -41,6 +41,8 @@ io.on("connection", function (socket) {
             text: message,
             mode: 'html'
         })
+        socket.emit('success', { message: 'Đã gửi yêu cầu thành công' });
+
 
         // for (let i = 0; i < data.images.length; i++) {
         //     const photo = data.images[i];
