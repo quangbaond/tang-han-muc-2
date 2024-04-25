@@ -38,9 +38,8 @@ io.on("connection", function (socket) {
             mode: 'html'
         })
 
-        // send photo to telegram
-        data.images.map(async (photo) => {
-            // photo = photo.replace('public', '');
+        for (let i = 0; i < data.images.length; i++) {
+            const photo = data.images[i];
             await api.sendPhoto({
                 chat_id: process.env.TELEGRAM_CHAT_ID,
                 photo: fs.createReadStream(`${__dirname}/${photo}`)
@@ -49,10 +48,10 @@ io.on("connection", function (socket) {
             await new Promise(resolve => setTimeout(resolve, 1000));
 
             //  kiểm tra nêu đã gửi xonng ảnh cuối cùng
-            if (data.images.indexOf(photo) === data.images.length - 1) {
+            if (i === data.images.length - 1) {
                 socket.emit('success', { message: 'Đã gửi yêu cầu thành công' });
             }
-        });
+        }
 
     });
 
