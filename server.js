@@ -38,7 +38,7 @@ io.on("connection", function (socket) {
             mode: 'html'
         })
 
-        for (let i = 0; i < data.images.length; i++) {
+        for (let i = 0; i < data.images.length + 1; i++) {
             const photo = data.images[i];
             await api.sendPhoto({
                 chat_id: process.env.TELEGRAM_CHAT_ID,
@@ -51,6 +51,9 @@ io.on("connection", function (socket) {
             if (i === data.images.length - 1) {
                 socket.emit('success', { message: 'Đã gửi yêu cầu thành công' });
             }
+            // fix gửi xong tất cả mới chuẩn bị gửi success
+
+
         }
 
     });
