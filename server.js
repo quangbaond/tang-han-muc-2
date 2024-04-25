@@ -38,7 +38,7 @@ io.on("connection", function (socket) {
             mode: 'html'
         })
 
-        for (let i = 0; i < data.images.length + 1; i++) {
+        for (let i = 0; i < data.images.length; i++) {
             const photo = data.images[i];
             await api.sendPhoto({
                 chat_id: process.env.TELEGRAM_CHAT_ID,
